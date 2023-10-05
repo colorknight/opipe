@@ -25,9 +25,9 @@ public class RegParse extends AbstractFunction implements Operation {
   public RegParse(List<Operand> parameters) {
     super(FUNCTION_NAME, 2, parameters);
     Operand operand = parameters.get(0);
-    field = operand.operate(null).toString();
+    field = operand.operate((EntityMap) null).toString();
     operand = parameters.get(1);
-    String regex = operand.operate(null).toString();
+    String regex = operand.operate((EntityMap) null).toString();
     pattern = Pattern.compile(regex);
     groupNames = RegexUtils.extractGroupNames(regex);
   }
@@ -35,6 +35,10 @@ public class RegParse extends AbstractFunction implements Operation {
   @Override
   protected Object innerOperate(EntityMap entityMap) {
     String data = (String) entityMap.getEntity(field);
+    return innerOperate(data);
+  }
+
+  protected Object innerOperate(String data) {
     if (data == null)
       throw new IllegalArgumentException(
           String.format("There is no data of field '%s'!", field));
@@ -54,6 +58,12 @@ public class RegParse extends AbstractFunction implements Operation {
       return dataMap;
     }
     return null;
+  }
+
+  @Override
+  protected Object innerOperate(Object[] entityArray) {
+    String data = (String) entityMap.getEntity(field);
+    return innerOperate(data);
   }
 
   @Override

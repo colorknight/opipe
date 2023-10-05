@@ -19,7 +19,7 @@ public class StrFormat extends AbstractFunction {
       throw new IllegalArgumentException(
           "Invalid format, please refer to the using of String.format!");
     Operand operand = parameters.get(0);
-    format = operand.operate(null).toString();
+    format = operand.operate((EntityMap) null).toString();
   }
 
   @Override
@@ -29,6 +29,19 @@ public class StrFormat extends AbstractFunction {
     for (Operand operand : parameters) {
       if (index > 0) {
         values[index - 1] = operand.operate(entityMap).toString();
+      }
+      index++;
+    }
+    return String.format(format, values);
+  }
+
+  @Override
+  protected Object innerOperate(Object[] entity) {
+    String[] values = new String[parameters.size() - 1];
+    int index = 0;
+    for (Operand operand : parameters) {
+      if (index > 0) {
+        values[index - 1] = operand.operate(entity).toString();
       }
       index++;
     }

@@ -23,6 +23,13 @@ public class PrintOut extends AbstractFunction implements Operation {
   }
 
   @Override
+  protected Object innerOperate(Object[] entityArray) {
+    Object v = parameters.get(0).operate(entityArray);
+    System.out.println(v.toString());
+    return null;
+  }
+
+  @Override
   public Object operate(Object in) {
     return operate((EntityMap) in);
   }

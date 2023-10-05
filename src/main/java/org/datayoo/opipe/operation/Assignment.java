@@ -26,6 +26,11 @@ public class Assignment extends AbstractFunction implements Operation {
   }
 
   @Override
+  protected Object innerOperate(Object[] entityArray) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public Object operate(Object in) {
     return operate((EntityMap) in);
   }
